@@ -20,19 +20,29 @@ print("\nCleaned Report:")
 print(cleaned)
 
 #3 Task spliting data
-wellname= input("please enter well name:")
-splited_well_name = wellname.split(" ,")
-wellid= input("enter well id:")
-splited_well_id = well_id.split(" ,")
-welllocation= input("enter well location:")
-splited_well_location = well_location.split(" ,")
-wellstatus = input("enter well status:")
-splited_well_status = well_status.split(" ,")
-welldate= input("enter well date:")
-splited_date = well_date.split(" ,")
-totalrevenue= input("enter total revenue:")
-splited_revenue = totalrevenue.split(" ,")
-print("splited_wellname:, splited_id:, splited_well_location:, splited_status:, splited_date:,")
+
+wellname = input("Please enter well name: ").split(",")
+splited_well_name = wellname
+wellid = input("Enter well ID: ").split(",")
+splited_well_id = wellid
+welllocation = input("Enter well location: ").split(",")
+splited_well_location = welllocation
+wellstatus = input("Enter well status: ").split(",")
+splited_well_status = wellstatus
+welldate = input("Enter well date: ").split(",")
+splited_date = welldate
+totalrevenue = input("Enter total revenue: ").split(",")
+splited_revenue = totalrevenue
+
+well_data = [
+    splited_well_name,
+    splited_well_id,
+    splited_well_location,
+    splited_well_status,
+    splited_date,
+    splited_revenue ]
+print("Well data list: well_name well_id wellLocation wellStatus wellDate totalRevenue")
+print(well_data)
 
 
 
