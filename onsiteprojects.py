@@ -32,8 +32,11 @@ welldate= input("enter well date:")
 splited_date = well_date.split(" ,")
 totalrevenue= input("enter total revenue:")
 splited_revenue = totalrevenue.split(" ,")
-
 print("splited_wellname:, splited_id:, splited_well_location:, splited_status:, splited_date:,")
+
+
+#4 task
+
 
 
 
