@@ -35,8 +35,6 @@ splited_revenue = totalrevenue.split(" ,")
 print("splited_wellname:, splited_id:, splited_well_location:, splited_status:, splited_date:,")
 
 
-#4 task
-
 
 
 
