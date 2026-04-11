@@ -48,7 +48,7 @@ print("\nAgbami-05 has been added to the rig.")
 well_to_remove = None
 for well in wells:
     if well["name"] == "Bonga-07":
-        well_to_remove = well
+        wells.remove(well)
 print("Bonga-07 (inactive) has been removed from the list.")
 
 # Print the updated list length
@@ -120,8 +120,10 @@ del well_profile ["temp"]
 print("'temp' field removed from profile.")
 
 # check key status exit
-if "status" in well_profile:
-    print("\n'status' key EXISTS in the well profile.")
+for x in well_profile.key():
+    if x == "status":
+        print(True)
+
 else:
     print("\n'status' key NOT found in the well profile.")
 
