@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Bonga-01",
+    "pressure": 3850,
+    "temp": 185,
+    "status": "NORMAL"
+  },
+  {
+    "name": "Delta-01",
+    "pressure": 820,
+    "temp": 165,
+    "status": "CRITICAL"
+  },
+  {
+    "name": "Subsea-01",
+    "pressure": 3500,
+    "temp": 185,
+    "status": "NORMAL"
+  },
+  {
+    "name": "Basin-02",
+    "pressure": 2100,
+    "temp": 175,
+    "status": "LOW"
+  }
+]

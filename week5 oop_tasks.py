@@ -1,4 +1,5 @@
 import json
+import re
 
 well_data = {
     "name": "well-01 ",
@@ -51,7 +52,6 @@ y = json.dumps(wells_json)
 print(y)
 
 #2A  —  Search and Match
-import re
 log_entry = 'Pressure alert triggered on well_003 at 04:32 UTC'
 match = re.search("well_003", log_entry)
 # Print the match object
@@ -61,7 +61,6 @@ print(match)
 print(match.group())
 
 #2B findall matches
-import re
 ops_log = '''
 Erha-02 pressure normal. Bonga-01 valve checked.
 Agbami-05 flagged for review. Bonga-01 cleared.
@@ -90,7 +89,6 @@ offline_wells = re.findall(r'[A-Za-z]+-\d+\s+offline', ops_log)
 print("offline wells:", offline_wells)
 
 #2c validate input
-import re
 def validate_well_id(well_id):
     pattern = r'^[A-Za-z]{1,10}-\d{2}$'
     return bool(re.match(pattern, well_id))
@@ -102,7 +100,7 @@ print(validate_well_id('well-03'))
 #3A Basic error catching
 def safe_divide(a,b):
     try:
-        return a/b  if b  else 0
+        return a / b
     except ZeroDivisionError:
         return 'cannot divide by zero'
     except TypeError:
@@ -114,7 +112,6 @@ print(safe_divide(100, 0))
 print(safe_divide(100, 'x'))
 
 #3B multiple exceptions + finally
-import re
 def load_well_pressure(data, key):
     try:
         return float(data[key])
@@ -183,32 +180,31 @@ print("---")
 
 # Function using .get() returns None if key doesn't exit
 def get_well_status(well):
-    return well.get("status")
-well_a = {"name": "Bonga-01", "status": "Active"}
-print(get_well_status(well_a))
-print("---")
-#status key is missiing
-well_b = {"name": "Erha-02"}
-print(get_well_status(well_b))
-print("---")
+    if 'Active' in well:
+        return well.get("Active")
+    else:
+        return None
+
 # different btwn NONE, zero and empty str
 # None that means there is no value assigned to it(None = 0 )
 # 0 that means a number was still assigned and it is zero(None == '')
 # '' string was assigned but it is empty print(0== '')
 
 #4C user input
-well_name = input("Enter well name: ")
+well_name = input("Enter well name: ") #Here I used the input() function to ask the user to type in a well name and a pressure reading
 try:
-    pressure = int(input("Enter pressure reading: "))
-    print(f"\nwell report - Well: {well_name} | Pressure: {pressure} psi")
+    pressure = int(input("Enter pressure reading: "))#the int convert from text to num
 except ValueError:
     print("Invalid input")
+
+print(f"\nwell report - Well: {well_name} | Pressure: {pressure} psi")
+
 
 #Task 5 Classes
 # 5A — Classes and Objects
 class Well:
     def __init__(self, name, pressure, temp, active=True, engineer=None):
-        self.name     = name
+        self.name     = name #self refer to specific object created
         self.pressure = pressure
         self.temp     = temp
         self.active   = active
@@ -238,7 +234,8 @@ print("\n=== Critical Status ===")
 print(f"{well1.name} critical: {well1.is_critical()}")  # False
 print(f"{well2.name} critical: {well2.is_critical()}")  # True  — low pressure AND high temp
 print(f"{well3.name} critical: {well3.is_critical()}")  # False
-
+print(well1.temp)
+print(well1.pressure)
 print("\n=== Assign Engineer ===")
 well1.assign_engineer("David Oluwaseyi")
 well1.describe()
@@ -429,7 +426,6 @@ print(f"{ons2.name} critical: {ons2.is_critical()}")
 print("\n" + "=" * 60)
 
 #Task 8 Polymorphism
-import re
 
 # Validator
 def validate_well_id(well_id):
@@ -477,7 +473,7 @@ class Well:
         return self._pressure < 1000 or self.temp > 300
 
 
-# ── Child Class 1 ────────────────────────────────────────────
+#  Child Class 1
 class OffshoreWell(Well):
     def __init__(self, name, pressure, temp, water_depth, platform_type, active=True, engineer=None):
         super().__init__(name, pressure, temp, active, engineer)
@@ -494,7 +490,7 @@ class OffshoreWell(Well):
         else: return "Shallow"
 
 
-# ── Child Class 2 ────────────────────────────────────────────
+#  Child Class 2
 class OnshoreWell(Well):
     def __init__(self, name, pressure, temp, region, site_manager, active=True, engineer=None):
         super().__init__(name, pressure, temp, active, engineer)
@@ -509,7 +505,7 @@ class OnshoreWell(Well):
         return "Delta" in self.region or "Basin" in self.region
 
 
-# ── Child Class 3 — SubseaWell inherits from OffshoreWell ────
+# Child Class 3 — SubseaWell inherits from OffshoreWell
 class SubseaWell(OffshoreWell):
     def __init__(self, name, pressure, temp, water_depth, platform_type, umbilical_length, active=True, engineer=None):
         super().__init__(name, pressure, temp, water_depth, platform_type, active, engineer)
@@ -534,7 +530,7 @@ def run_inspection(wells):
         print()
 
 
-# ── Wells list ───────────────────────────────────────────────
+#  Wells list
 wells = [
     OffshoreWell("Bonga-01",   pressure=3200, temp=85.0,  water_depth=1800, platform_type="FPSO"),
     OffshoreWell("Erha-02",    pressure=800,  temp=90.0,  water_depth=400,  platform_type="Fixed Jacket"),
@@ -557,10 +553,51 @@ run_inspection(wells)
 
 print(f"Total wells created: {Well.get_well_count()}")
 
-# Why didn't run_inspection() need to change to support SubseaWell?
-# Because run_inspection() only calls describe() and is_critical() —
-# methods that exist on EVERY Well object regardless of type.
-# When SubseaWell was added, Python automatically called SubseaWell's
-# own describe() without us telling it to. That is polymorphism —
-# the same method name, different behaviour per class, zero changes needed.
 
+#Tasks 9
+
+# task 9
+#Creates a list of four well objects using three different classes
+task9_wells = [
+    OffshoreWell("Bonga-01", 3850, 185, 1200, "FPSO"),
+    OnshoreWell("Delta-01", 820, 165, "Niger Delta", "Tunde Adeyemi"),
+    SubseaWell("Subsea-01", 3500, 185, 1600, "FPSO", 2500),
+    OnshoreWell("Basin-02", 2100, 175, "Benin Basin", "Ngozi Okafor"),
+]
+
+# convert well objects to dictionaries
+#Starts with an empty list, then loops through each well object.
+# For each one, it pulls out four attributes
+wells_as_dicts = []
+for well in task9_wells:
+    wells_as_dicts.append({
+        "name": well.name,
+        "pressure": well.pressure,
+        "temp": well.temp,
+        "status": well.status
+    })
+
+# write to json file
+with open("inspection_report.json", "w") as file:
+    json.dump(wells_as_dicts, file, indent=2) #serialize list of dict
+print("File written successfully.")
+
+# validate IDs
+for well in task9_wells:
+    if validate_well_id(well.name):
+        print(well.name, "— valid ID")
+    else:
+        print(well.name, "— INVALID ID")
+
+# read back from file
+with open("inspection_report.json", "r") as file:
+    loaded_data = json.load(file)
+
+# print formatted output
+print()
+for w in loaded_data:
+    print(f"Well: {w['name']:<12} | Pressure: {w['pressure']:>8} psi | Status: {w['status']}")
+
+# run final inspection
+print("final_inspection")
+run_inspection(task9_wells)
